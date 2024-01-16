@@ -9,6 +9,7 @@ const getVideoDetails = require("./utils/getVideoDetails");
 const getComments = require("./utils/getComments");
 const getCommentMore = require("./utils/getCommentMore");
 const getVideoRecomend = require("./utils/getVideoRecomend");
+const getDataMore = require("./utils/getDataMore");
 
 const app = express();
 
@@ -165,6 +166,7 @@ app.use("/getVideoRecomend",async(req,res)=>{
         }
     });
 
+
     // const body = await data.findOne({name:"video recomded 1"})
     // res.status(200).json({
     //     status:"success",
@@ -174,5 +176,20 @@ app.use("/getVideoRecomend",async(req,res)=>{
 
 })
 
+app.use("/getDataMore",async(req,res)=>{
+
+    getDataMore(req.body.searchTerm,req.body.token,async(error, body) => {
+        if (error) {
+            console.error('Error:', error);
+        } else {
+            await data.create({name:"get More Data",youtubedata:body})
+            res.json({
+                status:"success",
+                data:body
+            })
+        }
+    });
+
+}) 
 
 module.exports = app;
