@@ -1,21 +1,32 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+const data = require("./models/data");
 const getData = require("./utils/getData");
 const getChannelData = require("./utils/getChannelData");
-const data = require("./models/data");
 const getTrending = require("./utils/getTrending");
 const getVideoDetails = require("./utils/getVideoDetails");
 const getComments = require("./utils/getComments");
 const getCommentMore = require("./utils/getCommentMore");
 const getVideoRecomend = require("./utils/getVideoRecomend");
 const getDataMore = require("./utils/getDataMore");
+const getVideoRecCont = require("./utils/getVideoRecCont");
+
+const {loginUser,signUp,secureRoute,
+    verifyCode,sendCode} = require("./controllers/userController")
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 app.use(morgan("dev"));
+
+
+app.use("/sendCode",sendCode)
+app.use("/verifyCode",verifyCode)
+app.use("/login",loginUser)
+app.use("/signup",signUp)
+
 
 app.use("/getData",async(req,res)=>{
     getData(req.body.searchTerm,async(error, body) => {
@@ -62,24 +73,24 @@ app.use("/channel",async(req,res)=>{
 
 app.use("/getTrending",async(req,res)=>{
 
-    getTrending(async(error, body) => {
-        if (error) {
-            console.error('Error:', error);
-        } else {
-            await data.create({name:`Trending`,youtubedata:body})
-            res.json({
-                status:"success",
-                data:body
-            })
-        }
-    });
+    // getTrending(async(error, body) => {
+    //     if (error) {
+    //         console.error('Error:', error);
+    //     } else {
+    //         await data.create({name:`Trending`,youtubedata:body})
+    //         res.json({
+    //             status:"success",
+    //             data:body
+    //         })
+    //     }
+    // });
 
-//     const body = await data.findOne({name:"Trending"})
-//     res.status(200).json({
-//         status:"success",
-//         message:"hi",
-//         data:body
-//     })
+    const body = await data.findOne({name:"Trending"})
+    res.status(200).json({
+        status:"success",
+        message:"hi",
+        data:body
+    })
 
 })
 
@@ -191,5 +202,23 @@ app.use("/getDataMore",async(req,res)=>{
     });
 
 }) 
+
+app.use("/getVideoRecCont",async(req,res)=>{
+
+    getVideoRecCont(req.body.video_id,req.body.token,async(error, body) => {
+        if (error) {
+            console.error('Error:', error);
+        } else {
+            await data.create({name:"get Video Recomend cont",youtubedata:body})
+            res.json({
+                status:"success",
+                data:body
+            })
+        }
+    });
+
+}) 
+
+
 
 module.exports = app;
