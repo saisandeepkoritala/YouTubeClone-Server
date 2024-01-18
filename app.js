@@ -22,7 +22,7 @@ app.use(cors());
 app.use(morgan("dev"));
 
 
-app.use("/",isServerAlive)
+app.use("/isAlive",isServerAlive)
 app.use("/sendCode",sendCode)
 app.use("/verifyCode",verifyCode)
 app.use("/login",loginUser)
