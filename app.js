@@ -74,24 +74,24 @@ app.use("/channel",async(req,res)=>{
 
 app.use("/getTrending",async(req,res)=>{
 
-    // getTrending(async(error, body) => {
-    //     if (error) {
-    //         console.error('Error:', error);
-    //     } else {
-    //         await data.create({name:`Trending`,youtubedata:body})
-    //         res.json({
-    //             status:"success",
-    //             data:body
-    //         })
-    //     }
-    // });
+    getTrending(async(error, body) => {
+        if (error) {
+            console.error('Error:', error);
+        } else {
+            await data.create({name:`Trending`,youtubedata:body})
+            res.json({
+                status:"success",
+                data:body
+            })
+        }
+    });
 
-    const body = await data.findOne({name:"Trending"})
-    res.status(200).json({
-        status:"success",
-        message:"hi",
-        data:body
-    })
+    // const body = await data.findOne({name:"Trending"})
+    // res.status(200).json({
+    //     status:"success",
+    //     message:"hi",
+    //     data:body
+    // })
 
 })
 
