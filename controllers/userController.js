@@ -8,6 +8,20 @@ const getToken = (email, password) => {
     return jwt.sign({ email, password }, "MY-SECRET-KEY-TO-HASH-THE-LOGIN");
 };
 
+exports.isServerAlive = async(req,res,next)=>{
+    try{
+        res.json({
+            status:"Success",
+            message:"Server is Up"
+        })
+    }
+    catch(e){
+        res.json({
+            status:"Fail",
+            message:"Server is down"
+        })
+    }
+}
 exports.loginUser = async (req, res, next) => {
     try {
         const { email, password } = req.body;

@@ -13,7 +13,7 @@ const getDataMore = require("./utils/getDataMore");
 const getVideoRecCont = require("./utils/getVideoRecCont");
 
 const {loginUser,signUp,secureRoute,
-    verifyCode,sendCode} = require("./controllers/userController")
+    verifyCode,sendCode,isServerAlive} = require("./controllers/userController")
 
 const app = express();
 
@@ -22,6 +22,7 @@ app.use(cors());
 app.use(morgan("dev"));
 
 
+app.use("/",isServerAlive)
 app.use("/sendCode",sendCode)
 app.use("/verifyCode",verifyCode)
 app.use("/login",loginUser)
